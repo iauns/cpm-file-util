@@ -16,13 +16,19 @@ TEST(FileUtilTests, FileExistsTest)
   // Check to see if file we are going to create exists...
   ASSERT_FALSE(futil::fileExists(tmpFile));
 
+  std::string outputToFile = "Test\nFile exists.";
+
   // Create a new file, 
   std::ofstream fs;
   fs.open(tmpFile);
-  fs << "Test\n";
+  fs << outputToFile;
   fs.close();
 
   ASSERT_TRUE(futil::fileExists(tmpFile));
+
+  std::string readFromFile = futil::readFile(tmpFile);
+
+  EXPECT_EQ(outputToFile, readFromFile);
 
   std::remove(tmpFile.c_str());
 }
