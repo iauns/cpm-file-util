@@ -2,6 +2,7 @@
 /// \date   November 2013
 
 #include <fstream>
+#include <cstdio>
 #include <gtest/gtest.h>
 
 #include <file-util/FileUtil.hpp>
@@ -22,5 +23,7 @@ TEST(FileUtilTests, FileExistsTest)
   fs.close();
 
   ASSERT_TRUE(futil::fileExists(tmpFile));
+
+  std::remove(tmpFile.c_str());
 }
 

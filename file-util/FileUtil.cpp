@@ -2,6 +2,8 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
+#include <stdexcept>
 
 #include "FileUtil.hpp"
 
@@ -240,6 +242,29 @@ std::string getPath(const std::string& fileName)
       0,std::max(fileName.find_last_of("\\"),fileName.find_last_of("/"))+1);
   if(path.empty()) { path = "./"; }
   return path;
+}
+
+//------------------------------------------------------------------------------
+std::string readFile(const std::string& filename)
+{
+  std::string fileContents;
+  std::ifstream file(filename, std::ios_base::in);
+  if (file.is_open() == false)
+  {
+    std::cerr << "Failed to open file " << filename << std::endl;
+    throw std::runtime_error("Failed to find shader.");
+  }
+
+  // Size std::string appropriately before reading file.
+  file.seekg(0, std::ios::end);
+  fileContents.resize(static_cast<unsigned int>(file.tellg()));
+  file.seekg(0, std::ios::beg);
+
+  // Extra parenthesis are essential to avoid the most vexing parse.
+  fileContents.assign( (std::istreambuf_iterator<char>(file)), 
+                        std::istreambuf_iterator<char>());
+
+  return fileContents;
 }
 
 } // namespace CPM_FILE_UTIL_NS 

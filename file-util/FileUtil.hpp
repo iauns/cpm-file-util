@@ -20,6 +20,10 @@ bool fileExists(const std::string& strFileName);
 /// Returns the current working directory.
 std::string getCurrentWorkingDir();
 
+/// Returns the entire contents of the file in an std::string.
+/// This is mostly just useful for quick testing.
+std::string readFile(const std::string& filename);
+
 } // namespace CPM_FILE_UTIL_NS 
 
 #endif 
